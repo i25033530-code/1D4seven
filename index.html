@@ -1,180 +1,731 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-2BHF2MJBF1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shenyang · Lando Norris Style</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* 全局样式：保留所有原有样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
 
-  gtag('config', 'G-2BHF2MJBF1');
-</script>
-	
-<meta charset="utf-8">
-<title>Exercise4</title>
-<link rel="icon" href="images/inti_logo.png" sizes="any"><!-- 32x32 -->
+        body {
+            background: #0a0a18;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+        }
 
-	
-<style>
+        .more-info-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 24px;
+            background: linear-gradient(90deg, #ff2e63, #08d9d6);
+            color: #0a0a18;
+            font-weight: 600;
+            font-size: 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            z-index: 9999;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(255, 46, 99, 0.2);
+            border: none;
+            outline: none;
+        }
+        .more-info-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(8, 217, 214, 0.4);
+            text-shadow: 0 0 5px rgba(10, 10, 24, 0.2);
+        }
+        .more-info-btn:active {
+            transform: scale(0.98);
+        }
 
-*{ cursor: url("images/glowarrow.cur"), default; }
+        .cursor-dot {
+            position: fixed;
+            width: 15px;
+            height: 15px;
+            background: linear-gradient(90deg, #ff2e63, #08d9d6);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: screen;
+            opacity: 0.7;
+            transition: width 0.3s, height 0.3s, opacity 0.3s;
+        }
+        .cursor-dot.hover {
+            width: 40px;
+            height: 40px;
+            opacity: 0.4;
+        }
 
-</style>
-	
-<style>
+        .gradient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ff2e63, #08d9d6, #3a0ca3, #f896d8);
+            background-size: 600% 600%;
+            filter: blur(80px);
+            opacity: 0.35;
+            z-index: -1;
+            animation: gradientFlow 12s ease infinite;
+        }
 
-.box {
-    position: relative;
-    width: 500px;
-    height: 200px;
-    background: transparent;
-    border: 5px solid #fff;
-    border-top-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-}
+        header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 0 20px;
+            text-align: center;
+        }
 
-.box:before {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,.6);
-    border-top-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-    z-index: -1;
-}
+        .shenyang-title {
+            font-size: clamp(4rem, 10vw, 8rem);
+            font-weight: 800;
+            background: linear-gradient(90deg, #ff2e63, #08d9d6, #3a0ca3);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+            animation: titlePop 1.5s ease-out, textGlow 3s ease-in-out infinite;
+            text-shadow: 0 0 20px rgba(255, 46, 99, 0.3);
+        }
 
-.box #tbox1 {
-    text-align: center;
-    line-height: 100px;
-    color: #fff;
-}
+        .sub-title {
+            font-size: clamp(1rem, 3vw, 1.8rem);
+            margin-top: 20px;
+            color: #e0e0e0;
+            letter-spacing: 2px;
+            animation: fadeUp 2s ease-out, textFloat 4s ease-in-out infinite;
+            position: relative;
+        }
+        .sub-title::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #08d9d6, #ff2e63);
+            animation: lineGrow 3s ease-in-out infinite;
+        }
 
-</style>
-	
-<style>
+        .geo-shape {
+            position: absolute;
+            z-index: -1;
+            animation: shapeFloat 8s ease-in-out infinite;
+        }
+        .shape1 {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 10%;
+            border-radius: 23% 77% 61% 39% / 54% 67% 33% 46%;
+            background: rgba(255, 46, 99, 0.2);
+            animation-delay: 0s;
+        }
+        .shape2 {
+            width: 200px;
+            height: 200px;
+            bottom: 15%;
+            right: 10%;
+            background: rgba(8, 217, 214, 0.2);
+            border-radius: 73% 27% 59% 41% / 44% 77% 23% 56%;
+            animation-delay: 2s;
+        }
+        .shape3 {
+            width: 150px;
+            height: 150px;
+            top: 50%;
+            right: 20%;
+            background: rgba(58, 12, 163, 0.2);
+            border-radius: 43% 57% 79% 21% / 64% 37% 63% 36%;
+            animation: shapeRotate 10s ease-in-out infinite;
+            animation-delay: 1s;
+        }
+        .shape4 {
+            width: 250px;
+            height: 250px;
+            bottom: 20%;
+            left: 25%;
+            background: rgba(248, 150, 216, 0.2);
+            border-radius: 83% 17% 59% 41% / 24% 77% 23% 76%;
+            animation: shapePulse 6s ease-in-out infinite;
+            animation-delay: 3s;
+        }
 
-body {
+        .category-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px auto;
+            flex-wrap: wrap;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+        .tab-btn {
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid transparent;
+            border-image: linear-gradient(90deg, #ff2e63, #08d9d6) 1;
+            border-radius: 50px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+        .tab-btn.active {
+            background: linear-gradient(90deg, #ff2e63, #08d9d6);
+            color: #0a0a18;
+            font-weight: 600;
+        }
+        .tab-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(8, 217, 214, 0.3);
+        }
 
-width: 100%;
-height: 100vh;
-background-size: cover;
-background-position: center;
-background-repeat: no-repeat;
-display: flex;
-justify-content: center;
-align-items: center;
+        .landmark-section {
+            padding: 80px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 50px;
+            text-align: center;
+            background: linear-gradient(90deg, #08d9d6, #3a0ca3);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: titleGlow 4s ease-in-out infinite;
+        }
+        .landmark-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 35px;
+        }
+        .landmark-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+            perspective: 1000px;
+        }
+        .landmark-card.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s ease;
+        }
+        .landmark-card:hover .card-inner {
+            transform: rotateY(180deg);
+        }
+        .card-front {
+            padding: 25px;
+            backface-visibility: hidden;
+            position: relative;
+        }
+        .card-back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 25px;
+            background: linear-gradient(135deg, #121228, #1a1a38);
+            backface-visibility: hidden;
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border: 1px solid rgba(255, 46, 99, 0.2);
+            border-radius: 16px;
+        }
+        .card-front::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+            transition: left 0.8s ease;
+        }
+        .landmark-card:hover .card-front::before {
+            left: 100%;
+        }
 
-}
+        .card-img {
+            width: 100%;
+            height: 220px;
+            border-radius: 12px;
+            object-fit: cover;
+            margin-bottom: 20px;
+            animation: imgFade 1s ease;
+            transition: transform 0.5s ease;
+        }
+        .landmark-card:hover .card-img {
+            transform: scale(1.05);
+            filter: brightness(1.1);
+        }
 
-</style>
-	
-<style>
-#MB1 {
-    background-color: aqua;
-text-align: center;
-width: 400px;
-height: 50px;
-border-radius: 30px;
-margin-left: 40px;
-}
-</style>
-	
-<Style>
-html, body {
-  width: 100%;
-  height:100%;
-}
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #ff2e63;
+            position: relative;
+        }
+        .card-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #ff2e63, #08d9d6);
+            transition: width 0.5s ease;
+        }
+        .landmark-card:hover .card-title::after {
+            width: 100%;
+        }
 
-body {
-    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-    background-size: 400% 400%;
-    animation: gradient 15s ease infinite;
-}
+        .card-desc {
+            color: #cccccc;
+            line-height: 1.6;
+        }
+        .card-back-title {
+            font-size: 1.4rem;
+            color: #08d9d6;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .card-back-desc {
+            color: #e0e0e0;
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+        .card-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(58, 12, 163, 0.2);
+            border-radius: 20px;
+            color: #08d9d6;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            margin-right: 8px;
+        }
 
-@keyframes gradient {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
-}
-</Style>
-	
+        .snow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .snowflake {
+            position: absolute;
+            color: #fff;
+            font-size: 12px;
+            opacity: 0.8;
+            animation: snowFall linear infinite;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        .snowflake.small { font-size: 8px; animation-duration: 15s; }
+        .snowflake.medium { font-size: 12px; animation-duration: 20s; }
+        .snowflake.large { font-size: 16px; animation-duration: 25s; }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(90deg, #ff2e63, #08d9d6);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 999;
+            font-size: 1.5rem;
+            color: #0a0a18;
+        }
+        .back-to-top.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .back-to-top:hover {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 0 20px rgba(255, 46, 99, 0.4);
+        }
+
+        /* 核心动画定义 */
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes titlePop {
+            0% { transform: scale(0.8); opacity: 0; }
+            70% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes fadeUp {
+            0% { transform: translateY(30px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes shapeFloat {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(20px, -20px) rotate(180deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
+        @keyframes shapeRotate {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+        @keyframes shapePulse {
+            0% { transform: scale(1); opacity: 0.2; }
+            50% { transform: scale(1.1); opacity: 0.4; }
+            100% { transform: scale(1); opacity: 0.2; }
+        }
+        @keyframes imgFade {
+            0% { opacity: 0; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        @keyframes snowFall {
+            0% { top: -10%; transform: translateX(0) rotate(0deg); }
+            100% { top: 100%; transform: translateX(80px) rotate(720deg); }
+        }
+        @keyframes textGlow {
+            0%, 100% { text-shadow: 0 0 20px rgba(8, 217, 214, 0.3); }
+            50% { text-shadow: 0 0 30px rgba(8, 217, 214, 0.6); }
+        }
+        @keyframes lineGrow {
+            0%, 100% { width: 0; left: 0; }
+            50% { width: 100%; left: 0; }
+        }
+        @keyframes titleGlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+    </style>
 </head>
-
 <body>
-	
-<script language="JavaScript1.2">
+    <!-- 了解更多按钮 -->
+    <a href="2.html">
+    <button class="more-info-btn" id="moreInfoBtn">For more information, please click here</button>
+    </a>
+    <!-- 鼠标跟随光点 -->
+<div class="cursor-dot" id="cursorDot"></div>
+    <!-- 流体渐变背景 -->
+    <div class="gradient-bg"></div>
+    <!-- 雪花动画容器 -->
+    <div class="snow-container" id="snowContainer"></div>
 
-var trailLength = 8 // The length of trail (8 by default; put more for longer "tail")
-var path = "images/inti_logo.png" // URL of your image
+    <!-- 头部视觉区：核心修改 - 将Shenyang改为全大写SHENYANG -->
+    <header>
+        <div class="geo-shape shape1"></div>
+        <div class="geo-shape shape2"></div>
+        <div class="geo-shape shape3"></div>
+        <div class="geo-shape shape4"></div>
+        
+        <h1 class="shenyang-title">SHENYANG</h1>
+        <p class="sub-title">Industrial Capital · Shengjing Cultural Heritage · Ice and Snow City · Vibrant Metropolis</p>
+    </header>
 
-var standardbody=(document.compatMode=="CSS1Compat")? document.documentElement : document.body //create reference to common "body" across doctypes
-var i,d = 0
+    <!-- 地标分类标签 -->
+    <div class="category-tabs">
+        <button class="tab-btn active" data-category="all">All Attractions</button>
+        <button class="tab-btn" data-category="culture">Cultural Relics</button>
+        <button class="tab-btn" data-category="nature">Natural Scenery</button>
+        <button class="tab-btn" data-category="industry">Industrial Heritage</button>
+        <button class="tab-btn" data-category="modern">Modern City</button>
+    </div>
 
-function initTrail() { // prepares the script
-  images = new Array() // prepare the image array
-  for (i = 0; i < parseInt(trailLength); i++) {
-    images[i] = new Image()
-    images[i].src = path // i am still confused with js & css
-  }
-  storage = new Array() // prepare the storage for the coordinates
-  for (i = 0; i < images.length*3; i++) {
-    storage[i] = 0
-  }
-  for (i = 0; i < images.length; i++) { // make divs for IE and layers for Navigator
-    document.write('<div id="obj' + i + '" style="position: absolute; z-Index: 100; height: 0; width: 0"><img src="' + images[i].src + '"></div>')
-  }
-  trail()
-}
-function trail() { // trailing function
-  for (i = 0; i < images.length; i++) { // for every div/layer
-    document.getElementById("obj" + i).style.top = storage[d]+'px' // the Y-coordinate
-    document.getElementById("obj" + i).style.left = + storage[d+1]+'px' // the X-coordinate
-    d = d+2
-  }
-  for (i = storage.length; i >= 2; i--) { // save the coordinate for the div/layer that's behind
-    storage[i] = storage[i-2]
-  }
-  d = 0 // reset for future use
-  var timer = setTimeout("trail()",10) // call recursively 
-}
-function processEvent(e) { // catches and processes the mousemove event 
-  if (window.event) { // for IE
-    storage[0] = window.event.y+standardbody.scrollTop+10
-    storage[1] = window.event.x+standardbody.scrollLeft+10
-  } else {
-    storage[0] = e.pageY+12
-    storage[1] = e.pageX+12
-  }
-}
+    <!-- 地标卡片区域（8个景点） -->
+    <section class="landmark-section">
+        <h2 class="section-title">8 Landmarks of Shenyang</h2>
+        <div class="landmark-grid" id="landmarkGrid">
+            <!-- 1. 沈阳故宫（文化古迹） -->
+            <div class="landmark-card" data-category="culture">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <img src="image/故宫.jpeg?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Shenyang Imperial Palace" class="card-img">
+                        <h3 class="card-title">Shenyang Imperial Palace</h3>
+                        <p class="card-desc">One of China's only two surviving imperial palace complexes, built in 1625, blending Manchu and Han architectural styles.</p>
+                    </div>
+                    <div class="card-back">
+                        <h3 class="card-back-title">Shenyang Imperial Palace</h3>
+                        <p class="card-back-desc">Also known as the Mukden Palace, it was the palace built and used by Nurhaci and Huang Taiji of the Qing Dynasty. Covering an area of 60,000 square meters, it has 114 ancient buildings with over 500 rooms, and was listed on the World Heritage List in 2004.</p>
+                        <span class="card-tag">Cultural Relics</span>
+                        <span class="card-tag">World Heritage</span>
+                    </div>
+                </div>
+            </div>
 
-  initTrail() 
-  document.onmousemove = processEvent // start capturing
+            <!-- 2. 棋盘山（自然景观） -->
+            <div class="landmark-card" data-category="nature">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <img src="image/棋盘山.jpeg?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Qipanshan Mountain" class="card-img">
+                        <h3 class="card-title">Qipanshan Mountain</h3>
+                        <p class="card-desc">Shenyang's iconic natural landscape, famous nationwide for its Ice and Snow World in winter, with beautiful mountains and waters in summer.</p>
+                    </div>
+                    <div class="card-back">
+                        <h3 class="card-back-title">Qipanshan Mountain</h3>
+                        <p class="card-back-desc">Qipanshan Scenic Area covers 148 square kilometers, including four core areas: Qipanshan Mountain, Huishan Mountain, Dayangshan Mountain and Xiu Lake. The Ice and Snow World in winter is one of the core landmarks of ice and snow tourism in Northeast China.</p>
+                        <span class="card-tag">Natural Scenery</span>
+                        <span class="card-tag">Ice and Snow Tourism</span>
+                    </div>
+                </div>
+            </div>
 
-//-->
-</script>
-	
-<div class="box">	
-<p id="tbox1"> Welcome to my exercise page. pleace click on the button below to enter. </p>
+            <!-- 3. 铁西工业走廊（工业记忆） -->
+            <div class="landmark-card" data-category="industry">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <img src="image/铁西走廊.jpeg?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Tiexi Industrial Corridor" class="card-img">
+                        <h3 class="card-title">Tiexi Industrial Corridor</h3>
+                        <p class="card-desc">Witness to Shenyang's industrial glory as the "eldest son of the republic", now transformed into a cultural and creative technology zone.</p>
+                    </div>
+                    <div class="card-back">
+                        <h3 class="card-back-title">Tiexi Industrial Corridor</h3>
+                        <p class="card-back-desc">Tiexi District was once China's largest industrial zone, home to well-known enterprises such as Shenyang Machine Tool and Shenyang Blower Works. Now it preserves industrial relics and has built cultural and tourism landmarks such as the Industrial Museum and Cultural and Creative Park.</p>
+                        <span class="card-tag">Industrial Heritage</span>
+                        <span class="card-tag">Urban Renewal</span>
+                    </div>
+                </div>
+            </div>
 
-	
-<a href="../EX1/ICT2215.htm">	
-<button id="MB1" class=MsoNormal align=center style='text-align:center'>
+            <!-- 4. 中街（现代都市） -->
+            <div class="landmark-card" data-category="modern">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <img src="image/沈阳中街夜景.jpeg?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Middle Street" class="card-img">
+                        <h3 class="card-title">Middle Street</h3>
+                        <p class="card-desc">One of the longest commercial pedestrian streets in China, with a 400-year history, blending modern commerce and historical culture.</p>
+                    </div>
+                    <div class="card-back">
+                        <h3 class="card-back-title">Middle Street</h3>
+                        <p class="card-back-desc">Middle Street is 1500 meters long, built in 1625, and is Shenyang's earliest commercial center. Now it gathers modern commercial complexes such as Joy City and Hang Lung Plaza, with an annual passenger flow of over 100 million.</p>
+                        <span class="card-tag">Modern City</span>
+                        <span class="card-tag">Commercial Landmark</span>
+                    </div>
+                </div>
+            </div>
 
-click here to go to Exercise1
+            <!-- 5. 张氏帅府（文化古迹） -->
+            <div class="landmark-card" data-category="culture">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <img src="image/张帅府.jpeg?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Zhang's Shuai Mansion" class="card-img">
+                        <h3 class="card-title">Zhang's Shuai Mansion</h3>
+                        <p class="card-desc">The official residence and private mansion of Zhang Zuolin and Zhang Xueliang, featuring a distinctive blend of Chinese and Western architectural styles.</p>
+                    </div>
+                    <div class="card-back">
+                        <h3 class="card-back-title">Zhang's Shuai Mansion</h3>
+                        <p class="card-back-desc">Also known as the "Grand Marshal's Mansion", it was built in 1914, covering a total area of 36,000 square meters. It includes Chinese-style quadrangles, Western-style buildings, and Xiaoqing Building, and is an important witness to modern and contemporary history of Northeast China.</p>
+                        <span class="card-tag">Cultural Relics</span>
+                        <span class="card-tag">Historical Building</span>
+                    </div>
+                </div>
+            </div>
 
-</button>
-</a>
-	
+            <!-- 6. 北陵公园（自然景观） -->
+            <div class="landmark-card" data-category="nature">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <img src="image/北陵公园.jpeg?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Beiling Park" class="card-img">
+                        <h3 class="card-title">Beiling Park</h3>
+                        <p class="card-desc">The location of Zhaoling Mausoleum of the Qing Dynasty, with a 300-year-old ancient pine forest, is Shenyang's largest urban park.</p>
+                    </div>
+                    <div class="card-back">
+                        <h3 class="card-back-title">Beiling Park</h3>
+                        <p class="card-back-desc">Beiling Park covers an area of 3.3 million square meters, with the core being Zhaoling Mausoleum, the mausoleum of Huang Taiji of the Qing Dynasty. There are more than 2,000 ancient pine trees in the park, which is an important place for Shenyang citizens to relax and exercise.</p>
+                        <span class="card-tag">Natural Scenery</span>
+                        <span class="card-tag">Royal Mausoleum</span>
+                    </div>
+                </div>
+            </div>
 
-</div>
-	
+            <!-- 7. 1905文创园（工业记忆） -->
+            <div class="landmark-card" data-category="industry">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <img src="image/文化创意.jpeg?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="1905 Cultural and Creative Park" class="card-img">
+                        <h3 class="card-title">1905 Cultural and Creative Park</h3>
+                        <p class="card-desc">A cultural and creative park transformed from an old factory building, a popular check-in spot combining industrial style and artistic vibe.</p>
+                    </div>
+                    <div class="card-back">
+                        <h3 class="card-back-title">1905 Cultural and Creative Park</h3>
+                        <p class="card-back-desc">The predecessor of 1905 Cultural and Creative Park was an old factory building of Shenyang Heavy Machinery Plant, built in 1905. Now it has become a cultural landmark integrating art exhibitions, cultural and creative markets, and livehouses.</p>
+                        <span class="card-tag">Industrial Heritage</span>
+                        <span class="card-tag">Cultural and Creative Landmark</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8. K11艺术购物中心（现代都市） -->
+            <div class="landmark-card" data-category="modern">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <img src="image/k11.jpg?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="K11 Art Mall" class="card-img">
+                        <h3 class="card-title">K11 Art Mall</h3>
+                        <p class="card-desc">A high-end shopping mall integrating art, humanity and nature, a new business card of modern Shenyang.</p>
+                    </div>
+                    <div class="card-back">
+                        <h3 class="card-back-title">K11 Art Mall</h3>
+                        <p class="card-back-desc">Shenyang K11 has a total construction area of 260,000 square meters, being the first "art shopping mall" in Northeast China. It has an art exhibition hall, sky garden, etc., deeply integrating shopping and art experience.</p>
+                        <span class="card-tag">Modern City</span>
+                        <span class="card-tag">Art and Commerce</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 回到顶部按钮 -->
+    <div class="back-to-top" id="backToTop">↑</div>
+
+    <!-- 脚本部分 -->
+    <script>
+        // 按钮点击事件
+        const moreInfoBtn = document.getElementById('moreInfoBtn');
+        moreInfoBtn.addEventListener('click', () => {
+            alert('You can add more travel information, guides and other content about Shenyang here!');
+            // 如需跳转链接：window.location.href = "your-link-here";
+        });
+
+        // 1. 鼠标跟随光点
+        const cursorDot = document.getElementById('cursorDot');
+        document.addEventListener('mousemove', (e) => {
+            cursorDot.style.left = `${e.clientX}px`;
+            cursorDot.style.top = `${e.clientY}px`;
+        });
+        const cards = document.querySelectorAll('.landmark-card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => cursorDot.classList.add('hover'));
+            card.addEventListener('mouseleave', () => cursorDot.classList.remove('hover'));
+        });
+
+        // 2. 雪花动画
+        function createSnowflakes() {
+            const container = document.getElementById('snowContainer');
+            const snowCount = 80;
+
+            for (let i = 0; i < snowCount; i++) {
+                const snowflake = document.createElement('div');
+                const sizeType = ['small', 'medium', 'large'][Math.floor(Math.random() * 3)];
+                snowflake.classList.add('snowflake', sizeType);
+                snowflake.textContent = '❄️';
+                
+                const size = sizeType === 'small' ? 8 : sizeType === 'medium' ? 12 : 16;
+                const left = Math.random() * 100;
+                const duration = Math.random() * 15 + 10;
+                const delay = Math.random() * 15;
+                const opacity = Math.random() * 0.5 + 0.3;
+
+                snowflake.style.left = `${left}%`;
+                snowflake.style.fontSize = `${size}px`;
+                snowflake.style.animationDuration = `${duration}s`;
+                snowflake.style.animationDelay = `${delay}s`;
+                snowflake.style.opacity = opacity;
+
+                container.appendChild(snowflake);
+            }
+        }
+
+        // 3. 滚动渐入动画
+        function initScrollAnimation() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            cards.forEach(card => observer.observe(card));
+        }
+
+        // 4. 景点分类筛选
+        function initCategoryFilter() {
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    const category = btn.dataset.category;
+                    cards.forEach(card => {
+                        if (category === 'all' || card.dataset.category === category) {
+                            card.style.display = 'block';
+                            setTimeout(() => card.classList.add('animate'), 100);
+                        } else {
+                            card.style.display = 'none';
+                            card.classList.remove('animate');
+                        }
+                    });
+                });
+            });
+        }
+
+        // 5. 回到顶部按钮
+        function initBackToTop() {
+            const backBtn = document.getElementById('backToTop');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 500) {
+                    backBtn.classList.add('show');
+                } else {
+                    backBtn.classList.remove('show');
+                }
+            });
+            backBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        }
+
+        // 页面加载初始化
+        window.onload = () => {
+            createSnowflakes();
+            initScrollAnimation();
+            initCategoryFilter();
+            initBackToTop();
+            setTimeout(() => {
+                cards.forEach(card => card.classList.add('animate'));
+            }, 300);
+        };
+    </script>
 </body>
 </html>

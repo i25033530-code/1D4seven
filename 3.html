@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mist over Shengjing - Shenyang Historical Timeline</title>
+    <style>
+        /* 全局样式重置与基础设置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Times New Roman", "Microsoft YaHei", sans-serif;
+        }
+
+        /* 动态背景容器 - 历史长河+龙凤呈祥效果（完整保留） */
+        body {
+            position: relative;
+            min-height: 100vh;
+            color: #333;
+            padding: 40px 20px;
+            scroll-behavior: smooth; /* 全局平滑滚动 */
+            /* 历史长河渐变背景 + 流动动画 */
+            background: linear-gradient(120deg, #f8f3eb, #e8d8c0, #f8f3eb);
+            background-size: 400% 400%;
+            animation: riverFlow 30s ease infinite;
+            overflow-x: hidden;
+        }
+
+        /* 龙凤呈祥动态装饰 */
+        body::before, body::after {
+            content: "";
+            position: fixed;
+            width: 200px;
+            height: 200px;
+            opacity: 0.15;
+            z-index: 0;
+            background-size: contain;
+            background-repeat: no-repeat;
+            animation: dragonPhoenixFloat 40s ease-in-out infinite;
+        }
+        body::before {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50,10 C60,20 70,25 75,40 C80,55 75,70 65,80 C55,90 40,85 30,75 C20,65 15,50 20,35 C25,20 40,15 50,10 Z M45,30 C50,35 55,40 50,45 C45,50 35,48 30,40 C25,32 35,25 45,30 Z' fill='%238b4513'/%3E%3Cpath d='M60,45 C65,50 70,55 65,60 C60,65 50,63 45,55 C40,47 50,40 60,45 Z' fill='%238b4513'/%3E%3C/svg%3E");
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+        body::after {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50,15 C65,20 75,35 70,50 C65,65 50,70 35,65 C20,60 25,40 40,25 C45,20 55,10 50,15 Z M60,40 C65,45 60,50 55,48 C50,46 55,40 60,40 Z M35,45 C40,50 35,55 30,53 C25,51 30,45 35,45 Z' fill='%23c0392b'/%3E%3Cpath d='M50,60 C55,70 45,80 35,75 C25,70 30,65 50,60 Z' fill='%23c0392b'/%3E%3C/svg%3E");
+            top: 20%;
+            right: 5%;
+            animation-delay: 10s;
+        }
+
+        /* 历史长河流动动画（确保生效） */
+        @keyframes riverFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 龙凤呈祥悬浮动画（确保生效） */
+        @keyframes dragonPhoenixFloat {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(20px, -15px) rotate(5deg); }
+            50% { transform: translate(0, -30px) rotate(0deg); }
+            75% { transform: translate(-20px, -15px) rotate(-5deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+
+        /* 年份导航栏 */
+        .year-nav {
+            position: relative;
+            z-index: 1;
+            max-width: 1000px;
+            margin: 0 auto 40px auto;
+            padding: 15px;
+            background-color: rgba(248, 243, 235, 0.9);
+            border-radius: 8px;
+            border: 1px solid #8b4513;
+            overflow-x: auto;
+            white-space: nowrap;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .year-nav-item {
+            display: inline-block;
+            padding: 8px 15px;
+            margin: 0 5px;
+            color: #8b4513;
+            text-decoration: none;
+            font-size: 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .year-nav-item:hover {
+            background-color: #8b4513;
+            color: white;
+        }
+        .year-nav-item.active {
+            background-color: #c0392b;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* 页面标题 */
+        .page-title {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            color: #8b4513;
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+            letter-spacing: 2px;
+        }
+
+        /* 核心：历史时间轴容器（修正布局逻辑） */
+        .timeline {
+            position: relative;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding-bottom: 40px;
+            z-index: 1;
+        }
+
+        /* 时间轴中心线（居中） */
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            background-color: rgba(139, 69, 19, 0.8);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%); /* 确保绝对居中 */
+            border-radius: 4px;
+            box-shadow: 0 0 8px rgba(139, 69, 19, 0.5);
+        }
+
+        /* 时间轴节点容器 - 修正左右布局 */
+        .timeline-item {
+            padding: 15px 45px;
+            position: relative;
+            box-sizing: border-box;
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+        /* 左侧节点：占左半区，右内边距留空给中心线 */
+        .timeline-left {
+            width: 50%;
+            left: 0;
+            padding-right: calc(45px + 19px); /* 预留节点位置 */
+        }
+        /* 右侧节点：占右半区，左内边距留空给中心线 */
+        .timeline-right {
+            width: 50%;
+            left: 50%;
+            padding-left: calc(45px + 19px); /* 预留节点位置 */
+        }
+        /* 滚动后显示的状态 */
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 时间轴节点标记（圆形）- 修正定位 */
+        .timeline-dot {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: #f8f3eb;
+            border: 5px solid rgba(192, 57, 43, 0.9);
+            border-radius: 50%;
+            top: 20px;
+            z-index: 2;
+            box-shadow: 0 0 6px rgba(192, 57, 43, 0.6);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        /* 修正左右节点定位（对准中心线） */
+        .timeline-left .timeline-dot { 
+            right: 0; /* 左侧节点靠最右侧，对准中心线 */
+            transform: translateX(50%);
+        }
+        .timeline-right .timeline-dot { 
+            left: 0; /* 右侧节点靠最左侧，对准中心线 */
+            transform: translateX(-50%);
+        }
+        /* 节点悬停/点击效果 */
+        .timeline-dot:hover {
+            transform: scale(1.2) translateX(50%); /* 左侧节点悬停放大不偏移 */
+            border-color: #c0392b;
+            box-shadow: 0 0 10px rgba(192, 57, 43, 0.8);
+        }
+        .timeline-right .timeline-dot:hover {
+            transform: scale(1.2) translateX(-50%); /* 右侧节点悬停放大不偏移 */
+        }
+        .timeline-dot.active {
+            background-color: #c0392b;
+            border-color: white;
+        }
+        .timeline-left .timeline-dot.active {
+            transform: translateX(50%);
+        }
+        .timeline-right .timeline-dot.active {
+            transform: translateX(-50%);
+        }
+
+        /* 时间轴内容卡片 */
+        .timeline-content {
+            padding: 25px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            border: 1px solid #8b4513;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.5s ease;
+        }
+        /* 卡片悬浮效果 */
+        .timeline-item.visible .timeline-content:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            border-color: #c0392b;
+        }
+
+        /* 年份标题 */
+        .timeline-year {
+            color: #c0392b;
+            font-size: 1.6rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+            border-bottom: 1px dashed #8b4513;
+            padding-bottom: 8px;
+        }
+
+        /* 事件描述 */
+        .timeline-desc {
+            color: #444;
+            font-size: 1.15rem;
+            line-height: 1.8;
+            text-indent: 0; /* 英文取消首行缩进 */
+        }
+
+        /* 旅行攻略按钮样式 */
+        .travel-guide-btn-container {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 60px auto 40px auto;
+            text-align: center;
+        }
+        .travel-guide-btn {
+            display: inline-block;
+            padding: 18px 40px;
+            background: linear-gradient(135deg, #c0392b, #8b4513);
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 50px;
+            box-shadow: 0 6px 15px rgba(139, 69, 19, 0.3);
+            transition: all 0.4s ease;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            line-height: 1.5;
+        }
+        .travel-guide-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(139, 69, 19, 0.4);
+            background: linear-gradient(135deg, #d64541, #a0522d);
+        }
+        .travel-guide-btn:active {
+            transform: translateY(2px) scale(1.02);
+            box-shadow: 0 4px 10px rgba(139, 69, 19, 0.3);
+        }
+
+        /* 页脚 */
+        .footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            margin-top: 40px;
+            color: #8b4513;
+            font-size: 1.1rem;
+            padding: 20px 0;
+            border-top: 1px solid #8b4513;
+            background-color: rgba(248, 243, 235, 0.8);
+        }
+
+        /* 响应式适配（修正移动端布局） */
+        @media (max-width: 768px) {
+            .page-title { font-size: 2.2rem; }
+            .year-nav { padding: 10px; }
+            .year-nav-item { padding: 6px 12px; font-size: 0.9rem; }
+            /* 时间轴单列布局 */
+            .timeline::after { 
+                left: 35px; 
+                transform: translateX(0); /* 取消居中偏移 */
+            }
+            /* 所有节点改为100%宽度 */
+            .timeline-left, .timeline-right {
+                width: 100%;
+                left: 0;
+                padding-left: 80px;
+                padding-right: 25px;
+            }
+            /* 移动端节点统一左定位 */
+            .timeline-left .timeline-dot, .timeline-right .timeline-dot {
+                left: 35px;
+                right: auto;
+                transform: translateX(-50%);
+            }
+            /* 移动端节点悬停效果统一 */
+            .timeline-left .timeline-dot:hover, .timeline-right .timeline-dot:hover {
+                transform: scale(1.2) translateX(-50%);
+            }
+            .timeline-year { font-size: 1.4rem; }
+            .timeline-desc { font-size: 1rem; }
+            .timeline-content { padding: 20px; }
+            /* 移动端龙凤装饰缩小 */
+            body::before, body::after { width: 150px; height: 150px; }
+            /* 移动端按钮适配 */
+            .travel-guide-btn {
+                padding: 15px 30px;
+                font-size: 1rem;
+                max-width: 90%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title { font-size: 1.8rem; }
+            .timeline-item { padding-left: 70px; }
+            .timeline-dot { width: 25px; height: 25px; border-width: 4px; }
+            /* 小屏隐藏龙凤装饰 */
+            body::before, body::after { display: none; }
+            /* 小屏按钮适配 */
+            .travel-guide-btn {
+                padding: 12px 25px;
+                font-size: 0.95rem;
+                line-height: 1.4;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 页面标题 -->
+    <h1 class="page-title">Mist over Shengjing - Shenyang Historical Timeline</h1>
+
+    <!-- 年份导航栏 -->
+    <div class="year-nav" id="yearNav">
+        <div class="year-nav-item" data-target="1625">1625 · Founding of Shengjing</div>
+        <div class="year-nav-item" data-target="1636">1636 · Completion of Mukden Palace</div>
+        <div class="year-nav-item" data-target="1931">1931 · Mukden Incident (Sept 18th)</div>
+        <div class="year-nav-item" data-target="1948">1948 · Liberation of Shenyang</div>
+        <div class="year-nav-item" data-target="1953">1953 · Designated as Provincial Capital</div>
+        <div class="year-nav-item" data-target="1986">1986 · National Historical & Cultural City</div>
+    </div>
+
+    <!-- 历史时间轴核心容器（修正节点左右顺序） -->
+    <div class="timeline">
+        <!-- 节点1：1625年 - 左侧 -->
+        <div class="timeline-item timeline-left" id="1625">
+            <div class="timeline-dot" data-year="1625"></div>
+            <div class="timeline-content">
+                <div class="timeline-year">1625 · The 10th Year of Tianming</div>
+                <p class="timeline-desc">
+                    Nurhaci, against the opinions of many, moved the capital of the Later Jin from Liaoyang to Shenyang, believing that Shenyang was "a strategically located and easily defensible place with convenient transportation in all directions". Since then, Shenyang began its history as a capital city. In 1634, Huang Taiji renamed Shenyang as "Shengjing", meaning "a place of prosperity".
+                </p>
+            </div>
+        </div>
+
+        <!-- 节点2：1636年 - 右侧 -->
+        <div class="timeline-item timeline-right" id="1636">
+            <div class="timeline-dot" data-year="1636"></div>
+            <div class="timeline-content">
+                <div class="timeline-year">1636 · The 1st Year of Chongde</div>
+                <p class="timeline-desc">
+                    Mukden Palace (Shenyang Imperial Palace) was basically completed after 11 years of construction. Huang Taiji ascended the throne here and changed the state title to "Qing". Combining the architectural styles of Manchu, Han, Mongolian and Tibetan ethnic groups, Mukden Palace is one of the only two surviving royal palace complexes in China.
+                </p>
+            </div>
+        </div>
+
+        <!-- 节点3：1931年 - 左侧 -->
+        <div class="timeline-item timeline-left" id="1931">
+            <div class="timeline-dot" data-year="1931"></div>
+            <div class="timeline-content">
+                <div class="timeline-year">1931 · The 20th Year of the Republic of China</div>
+                <p class="timeline-desc">
+                    On the night of September 18th, the Japanese Kwantung Army staged the "Liutiaohu Incident" and shelled the Beidaying barracks of the Northeast Army. The Mukden Incident (September 18th Incident) broke out, and Shenyang fell the next day. The three northeastern provinces were gradually occupied, marking the start of the 14-year War of Resistance against Japanese Aggression.
+                </p>
+            </div>
+        </div>
+
+        <!-- 节点4：1948年 - 右侧 -->
+        <div class="timeline-item timeline-right" id="1948">
+            <div class="timeline-dot" data-year="1948"></div>
+            <div class="timeline-content">
+                <div class="timeline-year">1948 · The 37th Year of the Republic of China</div>
+                <p class="timeline-desc">
+                    On November 2nd, Shenyang was officially liberated, marking the complete victory of the Liaoshen Campaign. This campaign annihilated more than 470,000 Kuomintang troops and liberated the entire Northeast China, laying a solid foundation for the Pingjin Campaign and the liberation of the whole country.
+                </p>
+            </div>
+        </div>
+
+        <!-- 节点5：1953年 - 左侧 -->
+        <div class="timeline-item timeline-left" id="1953">
+            <div class="timeline-dot" data-year="1953"></div>
+            <div class="timeline-content">
+                <div class="timeline-year">1953 · New China</div>
+                <p class="timeline-desc">
+                    Shenyang became a municipality directly under the Central Government, and was redesignated as the capital of Liaoning Province in 1954. Known as "the eldest son of the Republic", Shenyang became an important industrial base in China, leading the country in machine tool, aviation, heavy industry and other industries, and made indelible contributions to the industrial development of New China.
+                </p>
+            </div>
+        </div>
+
+        <!-- 节点6：1986年 - 右侧 -->
+        <div class="timeline-item timeline-right" id="1986">
+            <div class="timeline-dot" data-year="1986"></div>
+            <div class="timeline-content">
+                <div class="timeline-year">1986 · Modern Era</div>
+                <p class="timeline-desc">
+                    Shenyang was announced by the State Council as one of the second batch of National Historical and Cultural Cities. With profound Qing culture heritage, memories of the War of Resistance against Japanese Aggression and industrial heritage, it is the only historical and cultural city in Northeast China that integrates royal culture, red culture and industrial culture.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 旅行攻略按钮 -->
+    <div class="travel-guide-btn-container">
+        <a href="4.html">
+        <button class="travel-guide-btn">Want to visit Shenyang? I have the most comprehensive travel guide here. Click to start your journey now!</button>
+    </a>    </div>
+
+    <!-- 页脚 -->
+    <div class="footer">
+        Mist over Shengjing - Shenyang Historical Timeline | A city's millennium of glory, a vivid memory of history
+    </div>
+
+    <script>
+        // 1. 滚动触发节点显示
+        const timelineItems = document.querySelectorAll('.timeline-item');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        timelineItems.forEach(item => {
+            observer.observe(item);
+        });
+
+        // 2. 年份导航+节点点击定位交互
+        const yearNavItems = document.querySelectorAll('.year-nav-item');
+        const timelineDots = document.querySelectorAll('.timeline-dot');
+        
+        function scrollToYear(year) {
+            const targetItem = document.getElementById(year);
+            if (targetItem) {
+                targetItem.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+                activateActiveState(year);
+            }
+        }
+
+        function activateActiveState(year) {
+            yearNavItems.forEach(item => item.classList.remove('active'));
+            timelineDots.forEach(dot => dot.classList.remove('active'));
+            document.querySelector(`.year-nav-item[data-target="${year}"]`)?.classList.add('active');
+            document.querySelector(`.timeline-dot[data-year="${year}"]`)?.classList.add('active');
+        }
+
+        // 导航栏点击事件
+        yearNavItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const year = item.getAttribute('data-target');
+                scrollToYear(year);
+            });
+        });
+
+        // 节点点击事件
+        timelineDots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const year = dot.getAttribute('data-year');
+                scrollToYear(year);
+            });
+        });
+
+        // 3. 页面加载默认激活第一个节点
+        window.addEventListener('load', () => {
+            activateActiveState('1625');
+            timelineItems[0].classList.add('visible');
+        });
+
+        // 4. 滚动时更新激活状态
+        window.addEventListener('scroll', () => {
+            timelineItems.forEach(item => {
+                const rect = item.getBoundingClientRect();
+                if (rect.top <= window.innerHeight/2 && rect.bottom >= window.innerHeight/2) {
+                    const year = item.id;
+                    activateActiveState(year);
+                }
+            });
+        });
+
+        // 5. 旅行攻略按钮点击事件（可替换为实际攻略链接）
+        const travelGuideBtn = document.querySelector('.travel-guide-btn');
+        travelGuideBtn.addEventListener('click', () => {
+            // 这里可以替换为实际的旅行攻略页面链接
+            alert('You will be redirected to the Shenyang travel guide page!');
+            // window.location.href = "your-travel-guide-link";
+        });
+    </script>
+</body>
+</html>

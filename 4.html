@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shenyang Travel Guide | Customized by Interests</title>
+    <!-- Import Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Import Font Awesome icon library -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Custom style configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        shenyang: {
+                            red: '#C8102E', // Shenyang characteristic red
+                            darkgray: '#333333',
+                            lightgray: '#F0EEEA', // Base background color
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .card-hover {
+                transition: all 0.3s ease;
+            }
+            .card-hover:hover {
+                transform: translateY(-6px);
+                box-shadow: 0 12px 20px -8px rgba(0,0,0,0.15);
+            }
+            .section-title {
+                border-left: 4px solid #C8102E;
+                padding-left: 1rem;
+            }
+            /* 动态背景动画定义 */
+            .animated-bg {
+                background: linear-gradient(
+                    -45deg, 
+                    #F0EEEA, 
+                    #F5F2ED, 
+                    #E8E6E1, 
+                    #EFEFEF
+                );
+                background-size: 400% 400%;
+                animation: gradient-flow 15s ease infinite;
+                min-height: 100vh;
+            }
+            /* 渐变流动动画 */
+            @keyframes gradient-flow {
+                0% {
+                    background-position: 0% 50%;
+                }
+                50% {
+                    background-position: 100% 50%;
+                }
+                100% {
+                    background-position: 0% 50%;
+                }
+            }
+        }
+    </style>
+</head>
+<!-- 核心修改：添加动态背景类名 animated-bg -->
+<body class="animated-bg font-sans text-shenyang-darkgray relative">
+    <!-- 确保内容层级在背景之上 -->
+    <div class="relative z-10">
+        <!-- Top Banner -->
+        <section class="bg-cover bg-center h-[40vh]" style="background-image: url('https://picsum.photos/id/1036/1920/1080');">
+            <div class="h-full w-full bg-black/50 flex items-center justify-center">
+                <div class="text-center text-white px-4">
+                    <h1 class="text-[clamp(1.8rem,4vw,3rem)] font-bold mb-3">Shenyang Travel Guide</h1>
+                    <p class="text-[clamp(0.9rem,2vw,1.1rem)]">Customized by Interests · Precise Metro Directions</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 1. For Shopping Lovers -->
+        <section class="py-12 container mx-auto px-4">
+            <h2 class="section-title text-2xl md:text-3xl font-bold mb-8">If You're a Shopping Lover</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Zhongjie Pedestrian Street -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover">
+                    <img src="image/中街4.jpeg" alt="Zhongjie Pedestrian Street" class="w-full h-40 object-cover">
+                    <div class="p-5">
+                      <h3 class="text-xl font-bold text-shenyang-red mb-2">Zhongjie Pedestrian Street</h3>
+                        <div class="flex items-center text-gray-600 mb-2">
+                            <i class="fa fa-subway text-shenyang-red mr-2"></i>
+                            <span>Metro Line 1 · Zhongjie Station (Exit A)</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-3">One of the longest commercial pedestrian streets in China, a century-old street combining trendy shopping, time-honored brands and local snacks</p>
+                        <div class="border-t pt-3">
+                            <h4 class="font-semibold mb-1">Must-buy Items:</h4>
+                            <ul class="text-sm text-gray-600 list-disc list-inside">
+                                <li>Laobian Dumpling Gift Box (Specialty)</li>
+                                <li>Bu Laolin Candy (Classic Shenyang Candy)</li>
+                                <li>Zhongjie 1946 Ice Cream (Famous Online)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shenyang MixC -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover">
+                    <img src="image/万象城.jpg" alt="Shenyang MixC" class="w-full h-40 object-cover">
+                    <div class="p-5">
+                      <h3 class="text-xl font-bold text-shenyang-red mb-2">Shenyang MixC</h3>
+                        <div class="flex items-center text-gray-600 mb-2">
+                            <i class="fa fa-subway text-shenyang-red mr-2"></i>
+                            <span>Metro Line 2 · Industrial Exhibition Station (Exit C)</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-3">Shenyang's high-end shopping mall, a gathering place for first-line brands with complete catering and entertainment facilities</p>
+                        <div class="border-t pt-3">
+                            <h4 class="font-semibold mb-1">Must-buy Items:</h4>
+                            <ul class="text-sm text-gray-600 list-disc list-inside">
+                                <li>Northeast Specialty Gift Box (Ginseng, Pilose Antler)</li>
+                                <li>Local Designer Brand Clothing</li>
+                                <li>MixC Custom Souvenirs</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Taiyuan Street Business District -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover">
+                    <img src="image/太原街.jpg" alt="Taiyuan Street Business District" class="w-full h-40 object-cover">
+                    <div class="p-5">
+                      <h3 class="text-xl font-bold text-shenyang-red mb-2">Taiyuan Street Business District</h3>
+                        <div class="flex items-center text-gray-600 mb-2">
+                            <i class="fa fa-subway text-shenyang-red mr-2"></i>
+                            <span>Metro Line 1 · Shenyang Station (Exit D)</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-3">A well-established core business district covering from affordable to mid-to-high-end products, suitable for one-stop shopping</p>
+                        <div class="border-t pt-3">
+                            <h4 class="font-semibold mb-1">Must-buy Items:</h4>
+                            <ul class="text-sm text-gray-600 list-disc list-inside">
+                                <li>Li Lianggui Smoked Pork Pancake (Vacuum Packed)</li>
+                                <li>Northeast Big Board Ice Cream (Bulk Pack)</li>
+                                <li>Shenyang Mint Cultural and Creative Souvenirs</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Divider -->
+        <div class="w-4/5 mx-auto border-b border-gray-200 mb-12"></div>
+
+        <!-- 2. For History & Culture Lovers -->
+        <section class="py-12 container mx-auto px-4">
+            <h2 class="section-title text-2xl md:text-3xl font-bold mb-8">If You're a History & Culture Lover</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Shenyang Palace Museum -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover">
+                    <img src="image/博物院.jpeg" alt="Shenyang Palace Museum" class="w-full h-40 object-cover">
+                    <div class="p-5">
+                      <h3 class="text-xl font-bold text-shenyang-red mb-2">Shenyang Palace Museum</h3>
+                        <div class="flex items-center text-gray-600 mb-3">
+                            <i class="fa fa-subway text-shenyang-red mr-2"></i>
+                            <span>Metro Line 1 · Zhongjie Station (Exit B) → 8 minutes on foot</span>
+                        </div>
+                        <p class="text-gray-600 text-sm">One of the only two surviving imperial palace complexes in China, with strong Manchu style and a large collection of court cultural relics, a must-visit to understand early Qing history</p>
+                    </div>
+                </div>
+
+                <!-- Marshal Zhang's Mansion -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover">
+                    <img src="image/张帅府.jpeg" alt="Marshal Zhang's Mansion" class="w-full h-40 object-cover">
+                    <div class="p-5">
+                      <h3 class="text-xl font-bold text-shenyang-red mb-2">Marshal Zhang's Mansion</h3>
+                        <div class="flex items-center text-gray-600 mb-3">
+                            <i class="fa fa-subway text-shenyang-red mr-2"></i>
+                            <span>Metro Line 1 · Zhongjie Station (Exit A) → 12 minutes on foot</span>
+                        </div>
+                        <p class="text-gray-600 text-sm">The official residence and private mansion of Zhang Zuolin and Zhang Xueliang, featuring a Chinese-Western blended architectural style, restoring key scenes of Northeast modern history</p>
+                    </div>
+                </div>
+
+                <!-- Zhao Mausoleum (Beiling Park) -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover">
+                    <img src="image/昭陵.jpg" alt="Zhao Mausoleum (Beiling Park)" class="w-full h-40 object-cover">
+                    <div class="p-5">
+                      <h3 class="text-xl font-bold text-shenyang-red mb-2">Zhao Mausoleum (Beiling Park)</h3>
+                        <div class="flex items-center text-gray-600 mb-3">
+                            <i class="fa fa-subway text-shenyang-red mr-2"></i>
+                            <span>Metro Line 2 · Beiling Park Station (Exit D) → 3 minutes on foot</span>
+                        </div>
+                        <p class="text-gray-600 text-sm">The mausoleum of Huang Taiji, Emperor Taizong of the Qing Dynasty, the largest among the three mausoleums outside the pass, retaining the complete pattern of the imperial mausoleum of the Qing Dynasty</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Divider -->
+        <div class="w-4/5 mx-auto border-b border-gray-200 mb-12"></div>
+
+        <!-- 3. For Food Lovers -->
+        <section class="py-12 container mx-auto px-4">
+            <h2 class="section-title text-2xl md:text-3xl font-bold mb-8">If You're a Food Lover</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Xita Street -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover">
+                    <img src="image/西塔小吃.jpg" alt="Xita Street" class="w-full h-40 object-cover">
+                    <div class="p-5">
+                      <h3 class="text-xl font-bold text-shenyang-red mb-2">Xita Street</h3>
+                        <div class="flex items-center text-gray-600 mb-3">
+                            <i class="fa fa-subway text-shenyang-red mr-2"></i>
+                            <span>Metro Line 1 · Xita Station (Exit B) → 2 minutes on foot</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-2">The largest Korean ethnic settlement in Northeast China, a gathering place for Korean-style food</p>
+                        <div class="text-sm text-gray-600">
+                            <span class="font-semibold">Must-Try:</span> Grilled Pork Belly, Ginseng Chicken Soup, Rice Sausage, Rice Cakes
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Laobian Dumpling House (Zhongjie Main Store) -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover">
+                    <img src="image/老边饺子中街.jpg" alt="Laobian Dumpling House" class="w-full h-40 object-cover">
+                    <div class="p-5">
+                      <h3 class="text-xl font-bold text-shenyang-red mb-2">Laobian Dumpling House (Zhongjie Main Store)</h3>
+                        <div class="flex items-center text-gray-600 mb-3">
+                            <i class="fa fa-subway text-shenyang-red mr-2"></i>
+                            <span>Metro Line 1 · Zhongjie Station (Exit C) → 5 minutes on foot</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-2">A century-old time-honored brand with intangible cultural heritage dumpling-making craftsmanship</p>
+                        <div class="text-sm text-gray-600">
+                            <span class="font-semibold">Must-Try:</span> Stir-Filled Dumplings, Shrimp Steamed Dumplings, Laobian Mixed Dishes
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Xingshun Night Market (Tawan Branch) -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover">
+                    <img src="image/兴顺夜市.jpeg" alt="Xingshun Night Market" class="w-full h-40 object-cover">
+                    <div class="p-5">
+                      <h3 class="text-xl font-bold text-shenyang-red mb-2">Xingshun Night Market (Tawan Branch)</h3>
+                        <div class="flex items-center text-gray-600 mb-3">
+                            <i class="fa fa-subway text-shenyang-red mr-2"></i>
+                            <span>Metro Line 10 · Tawan Street Station (Exit A) → 6 minutes on foot</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-2">One of the largest night markets in Northeast China, where you can taste all Northeast snacks in one stop</p>
+                        <div class="text-sm text-gray-600">
+                            <span class="font-semibold">Must-Try:</span> Grilled Cold Noodles, Grilled Pork Kidney, Candied Sweet Potato, Frozen Pear Juice
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Divider -->
+        <div class="w-4/5 mx-auto border-b border-gray-200 mb-12"></div>
+
+        <!-- 4. For Nature & Leisure Lovers -->
+        <section class="py-12 container mx-auto px-4 mb-12">
+            <h2 class="section-title text-2xl md:text-3xl font-bold mb-8">If You're a Nature & Leisure Lover</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Shenyang Expo Garden -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover">
+                    <img src="image/浑南草地.jpg" alt="Shenyang Expo Garden" class="w-full h-40 object-cover">
+                    <div class="p-5">
+                      <h3 class="text-xl font-bold text-shenyang-red mb-2">Shenyang Expo Garden</h3>
+                        <div class="flex items-center text-gray-600 mb-3">
+                            <i class="fa fa-subway text-shenyang-red mr-2"></i>
+                            <span>Metro Line 1 · Pangjiang Street Station → Transfer to Bus 168 to reach directly</span>
+                        </div>
+                        <p class="text-gray-600 text-sm">Former Shenyang Botanical Garden, with flowers in all seasons and a large green area, suitable for picnics, hiking and flower viewing</p>
+                    </div>
+                </div>
+
+                <!-- Hunhe South Bank Forest Park -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover">
+                    <img src="image/浑南.jpg" alt="Hunhe South Bank Forest Park" class="w-full h-40 object-cover">
+                    <div class="p-5">
+                      <h3 class="text-xl font-bold text-shenyang-red mb-2">Hunhe South Bank Forest Park</h3>
+                        <div class="flex items-center text-gray-600 mb-3">
+                            <i class="fa fa-subway text-shenyang-red mr-2"></i>
+                            <span>Metro Line 2 · Olympic Sports Center Station (Exit B) → 10 minutes on foot</span>
+                        </div>
+                        <p class="text-gray-600 text-sm">Shenyang's "urban lung", the core area of the Hunhe landscape belt, suitable for cycling, walking and viewing the river scenery</p>
+                    </div>
+                </div>
+
+                <!-- Qipanshan Scenic Area -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover">
+                    <img src="image/棋盘山.jpeg" alt="Qipanshan Scenic Area" class="w-full h-40 object-cover">
+                    <div class="p-5">
+                      <h3 class="text-xl font-bold text-shenyang-red mb-2">Qipanshan Scenic Area</h3>
+                        <div class="flex items-center text-gray-600 mb-3">
+                            <i class="fa fa-subway text-shenyang-red mr-2"></i>
+                            <span>Metro Line 1 · East Zhongjie Station → Transfer to Bus 168 to reach directly</span>
+                        </div>
+                        <p class="text-gray-600 text-sm">A natural oxygen bar in the outskirts of Shenyang, with mountains and waters, suitable for one-day trips, camping and mountain climbing</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

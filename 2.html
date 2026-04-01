@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impression Shenyang - Shengjing Ancient Capital · Industrial New City</title>
+    <!-- 引入Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入Font Awesome图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- 引入粒子背景库 -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <!-- 自定义Tailwind配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        shenyang: {
+                            red: '#C8102E', // Shenyang Red (Forbidden City Red)
+                            gold: '#D4AF37', // Shengjing Gold
+                            gray: '#4A4A4A', // Industrial Gray
+                            blue: '#1E88E5', // Hunhe River Blue
+                        },
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.8s ease forwards',
+                        'fade-in': 'fadeIn 1s ease forwards',
+                        'scale-in': 'scaleIn 1.2s ease forwards',
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s ease-in-out infinite', // 新增慢脉冲动画
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: 0, transform: 'translateY(30px)' },
+                            '100%': { opacity: 1, transform: 'translateY(0)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: 0 },
+                            '100%': { opacity: 1 },
+                        },
+                        scaleIn: {
+                            '0%': { opacity: 0, transform: 'scale(0.9)' },
+                            '100%': { opacity: 1, transform: 'scale(1)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                    },
+                },
+            }
+        }
+    </script>
+    <!-- 自定义样式 -->
+    <style type="text/tailwindcss">
+        @layer utilities {
+            /* 滚动触发动画的初始状态 */
+            .animate-on-scroll {
+                opacity: 0;
+                transform: translateY(40px);
+                transition: all 0.8s ease;
+            }
+            .animate-on-scroll.visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            /* 3D卡片效果 */
+            .card-3d {
+                transform-style: preserve-3d;
+                perspective: 1000px;
+            }
+            .card-3d-inner {
+                transition: transform 0.6s ease;
+                transform-style: preserve-3d;
+            }
+            .card-3d:hover .card-3d-inner {
+                transform: rotateY(180deg);
+            }
+            .card-3d-front, .card-3d-back {
+                backface-visibility: hidden;
+                -webkit-backface-visibility: hidden;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+            .card-3d-back {
+                transform: rotateY(180deg);
+            }
+            /* 视差滚动 */
+            .parallax {
+                background-attachment: fixed;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+            /* 文字渐变 */
+            .text-gradient {
+                background-clip: text;
+                -webkit-background-clip: text;
+                color: transparent;
+            }
+            /* 按钮发光特效 */
+            .btn-glow {
+                box-shadow: 0 0 15px rgba(200, 16, 46, 0.4), 0 0 30px rgba(212, 175, 55, 0.3);
+            }
+            .btn-glow:hover {
+                box-shadow: 0 0 25px rgba(200, 16, 46, 0.6), 0 0 50px rgba(212, 175, 55, 0.4);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-shenyang-gray overflow-x-hidden">
+    <!-- 粒子背景容器 -->
+    <div id="particles-js" class="fixed top-0 left-0 w-full h-full z-0 opacity-20"></div>
+
+    <!-- 导航栏（滚动动画） -->
+    <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-500 bg-transparent">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-white text-gradient bg-gradient-to-r from-shenyang-gold to-shenyang-red">
+                Impression Shenyang
+            </a>
+            <div class="hidden md:flex space-x-8">
+                <a href="#intro" class="text-white hover:text-shenyang-gold transition-colors">City Profile</a>
+                <a href="#landmark" class="text-white hover:text-shenyang-gold transition-colors">Landmarks</a>
+                <a href="#food" class="text-white hover:text-shenyang-gold transition-colors">Shengjing Cuisine</a>
+                <a href="#culture" class="text-white hover:text-shenyang-gold transition-colors">Industrial Culture</a>
+            </div>
+            <button class="md:hidden text-white text-2xl">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- 英雄区（全屏+文字动画） -->
+    <header class="relative h-screen flex items-center justify-center overflow-hidden">
+        <!-- 背景图 -->
+        <div class="absolute inset-0 z-0">
+            <img src="image/沈阳.jpeg" alt="Shenyang TV Tower" class="w-full h-full object-cover filter brightness-75">
+            <div class="absolute inset-0 bg-gradient-to-b from-shenyang-red/30 to-shenyang-gray/70"></div>
+        </div>
+        <!-- 文字内容 -->
+        <div class="relative z-10 text-center px-4 animate-fade-in-up">
+            <h1 class="text-[clamp(2.5rem,8vw,5rem)] font-bold text-white mb-4 animate-scale-in">
+                Shengjing Ancient Capital · Industrial New City
+            </h1>
+            <p class="text-[clamp(1rem,3vw,1.5rem)] text-white/90 mb-8 animate-fade-in delay-300">
+                A city integrating historical heritage and modern vitality
+            </p>
+            <a href="#intro" class="inline-block bg-shenyang-red hover:bg-shenyang-red/80 text-white font-medium px-8 py-3 rounded-full transition-all hover:scale-105 animate-float">
+                Explore Shenyang <i class="fas fa-arrow-down ml-2"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- 城市简介（滚动触发动画） -->
+    <section id="intro" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16 animate-on-scroll">
+                <h2 class="text-[clamp(1.8rem,4vw,3rem)] font-bold text-shenyang-gray mb-4">
+                    <span class="text-gradient bg-gradient-to-r from-shenyang-red to-shenyang-gold">Shenyang</span> City Profile
+                </h2>
+                <div class="w-20 h-1 bg-shenyang-red mx-auto"></div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="animate-on-scroll">
+                    <img src="image/沈阳地标.jpeg" alt="Shenyang Cityscape " class="w-full h-auto rounded-xl shadow-xl hover:shadow-2xl transition-shadow">
+                </div>
+                <div class="animate-on-scroll delay-200">
+                    <p class="text-lg mb-6">
+                        Shenyang, historically known as Shengjing and Fengtian, is the capital of Liaoning Province and the political, economic, and cultural center of Northeast China. As a national historical and cultural city, Shenyang has a history of nearly 3,000 years and is known as "the birthplace of one dynasty and the capital of two emperors".
+                    </p>
+                    <p class="text-lg mb-6">
+                        Here, there are not only world cultural heritage sites such as the Shenyang Palace Museum, Zhaoling Mausoleum, and Fuling Mausoleum, but also industrial landmarks such as the China Industrial Museum and Tiexi Cultural and Creative Park. It is a city that combines historical heritage with modern industrial vitality.
+                    </p>
+                    <div class="flex flex-wrap gap-4 mt-8">
+                        <div class="bg-shenyang-red/10 p-4 rounded-lg">
+                            <span class="text-shenyang-red font-bold text-xl">7273</span>
+                            <p class="text-sm">km² | City Area</p>
+                        </div>
+                        <div class="bg-shenyang-gold/10 p-4 rounded-lg">
+                            <span class="text-shenyang-gold font-bold text-xl">9.07</span>
+                            <p class="text-sm">Million | Permanent Population</p>
+                        </div>
+                        <div class="bg-shenyang-blue/10 p-4 rounded-lg">
+                            <span class="text-shenyang-blue font-bold text-xl">2300+</span>
+                            <p class="text-sm">Years | Urban History</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 地标特色（3D卡片动画） -->
+    <section id="landmark" class="py-20 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16 animate-on-scroll">
+                <h2 class="text-[clamp(1.8rem,4vw,3rem)] font-bold text-shenyang-gray mb-4">
+                    Shengjing <span class="text-gradient bg-gradient-to-r from-shenyang-gold to-shenyang-red">Landmarks</span>
+                </h2>
+                <div class="w-20 h-1 bg-shenyang-gold mx-auto"></div>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- 沈阳故宫 -->
+                <div class="card-3d h-80 animate-on-scroll">
+                    <div class="card-3d-inner relative w-full h-full">
+                        <!-- 卡片正面 -->
+                        <div class="card-3d-front bg-white rounded-xl shadow-lg overflow-hidden">
+                            <img src="image/博物院.jpeg" alt="Shenyang Palace Museum" class="w-full h-48 object-cover">
+                            <div class="p-4 text-center">
+                              <h3 class="font-bold text-xl text-shenyang-red mb-2">Shenyang Palace Museum</h3>
+                                <p class="text-gray-600">One of China's only two surviving imperial palace complexes</p>
+                            </div>
+                        </div>
+                        <!-- 卡片背面 -->
+                        <div class="card-3d-back bg-shenyang-red text-white rounded-xl shadow-lg p-6 flex flex-col justify-center">
+                            <h3 class="font-bold text-xl mb-4 text-shenyang-gold">Shenyang Palace Museum</h3>
+                            <p class="mb-4">Founded in 1625, it was the palace built and used by Nurhaci, the Taizu of the Qing Dynasty, and Huang Taiji, the Taizong of the Qing Dynasty. It covers an area of more than 60,000 square meters, with 114 ancient buildings and over 500 rooms.</p>
+                            <div class="text-center mt-auto">
+                                <i class="fas fa-landmark text-4xl text-shenyang-gold"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 中街 -->
+                <div class="card-3d h-80 animate-on-scroll delay-200">
+                    <div class="card-3d-inner relative w-full h-full">
+                        <div class="card-3d-front bg-white rounded-xl shadow-lg overflow-hidden">
+                            <img src="image/中街.jpeg" alt="Shenyang Middle Street" class="w-full h-48 object-cover">
+                            <div class="p-4 text-center">
+                              <h3 class="font-bold text-xl text-shenyang-red mb-2">Middle Street</h3>
+                                <p class="text-gray-600">China's first commercial pedestrian street</p>
+                            </div>
+                        </div>
+                        <div class="card-3d-back bg-shenyang-blue text-white rounded-xl shadow-lg p-6 flex flex-col justify-center">
+                            <h3 class="font-bold text-xl mb-4 text-shenyang-gold">Middle Street</h3>
+                            <p class="mb-4">With a history of over 370 years and a total length of 1,500 meters, it is Shenyang's earliest commercial center, gathering many time-honored brands and modern commercial brands.</p>
+                            <div class="text-center mt-auto">
+                                <i class="fas fa-shopping-bag text-4xl text-shenyang-gold"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 彩电塔 -->
+                <div class="card-3d h-80 animate-on-scroll delay-400">
+                    <div class="card-3d-inner relative w-full h-full">
+                        <div class="card-3d-front bg-white rounded-xl shadow-lg overflow-hidden">
+                            <img src="image/电视塔.jpg" alt="Shenyang TV Tower" class="w-full h-48 object-cover">
+                            <div class="p-4 text-center">
+                              <h3 class="font-bold text-xl text-shenyang-red mb-2">TV Tower</h3>
+                                <p class="text-gray-600">Iconic landmark of Shenyang</p>
+                            </div>
+                        </div>
+                        <div class="card-3d-back bg-shenyang-gray text-white rounded-xl shadow-lg p-6 flex flex-col justify-center">
+                            <h3 class="font-bold text-xl mb-4 text-shenyang-gold">TV Tower</h3>
+                            <p class="mb-4">With a total height of 305.5 meters, it is the tallest steel structure tower in Northeast China, integrating radio and television transmission, sightseeing, catering and entertainment.</p>
+                            <div class="text-center mt-auto">
+                                <i class="fas fa-tower-broadcast text-4xl text-shenyang-gold"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 盛京美食（横向滚动+hover动画） -->
+    <section id="food" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16 animate-on-scroll">
+                <h2 class="text-[clamp(1.8rem,4vw,3rem)] font-bold text-shenyang-gray mb-4">
+                    Shengjing <span class="text-gradient bg-gradient-to-r from-shenyang-red to-shenyang-gold">Cuisine</span>
+                </h2>
+                <div class="w-20 h-1 bg-shenyang-red mx-auto"></div>
+            </div>
+            <!-- 横向滚动容器 -->
+            <div class="overflow-x-auto pb-8 animate-on-scroll">
+                <div class="flex space-x-6 min-w-max px-4">
+                    <!-- 老边饺子 -->
+                    <div class="w-64 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all hover:-translate-y-2">
+                        <img src="image/饺子.jpeg" alt="Laobian Dumplings" class="w-full h-48 object-cover rounded-t-xl">
+                        <div class="p-4">
+                          <h3 class="font-bold text-xl text-shenyang-red mb-2">Lao bian Dumplings</h3>
+                            <p class="text-gray-600">Founded in 1829, famous for thin skin, large filling, fresh and delicious taste</p>
+                        </div>
+                    </div>
+                    <!-- 李连贵熏肉大饼 -->
+                    <div class="w-64 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all hover:-translate-y-2">
+                        <img src="image/鸡架.jpg" alt="Li Liangui Smoked Pork and Pancake" class="w-full h-48 object-cover rounded-t-xl">
+                        <div class="p-4">
+                          <h3 class="font-bold text-xl text-shenyang-red mb-2">Li Liangui Smoked Pork & Pancake</h3>
+                            <p class="text-gray-600">A century-old time-honored brand, smoked pork is fat but not greasy, and pancakes are crispy outside and soft inside</p>
+                        </div>
+                    </div>
+                    <!-- 西塔大冷面 -->
+                    <div class="w-64 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all hover:-translate-y-2">
+                        <img src="image/冷面.jpeg" alt="Xita Cold Noodles" class="w-full h-48 object-cover rounded-t-xl">
+                        <div class="p-4">
+                          <h3 class="font-bold text-xl text-shenyang-red mb-2">Xita Cold Noodles</h3>
+                            <p class="text-gray-600">Korean specialty, sweet and sour, refreshing, a must-have in summer</p>
+                        </div>
+                    </div>
+                    <!-- 吊炉饼鸡蛋糕 -->
+                    <div class="w-64 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all hover:-translate-y-2">
+                        <img src="image/饼.jpeg" alt="Hanging Oven Pancake with Egg Custard" class="w-full h-48 object-cover rounded-t-xl">
+                        <div class="p-4">
+                          <h3 class="font-bold text-xl text-shenyang-red mb-2">Hanging Oven Pancake & Egg Custard</h3>
+                            <p class="text-gray-600">Classic Shenyang breakfast, crispy outside and tender inside, fresh and delicious</p>
+                        </div>
+                    </div>
+                    <!-- 不老林糖 -->
+                    <div class="w-64 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all hover:-translate-y-2">
+                        <img src="image/布劳林糖果.jpeg" alt="Bulao Lin Candy" class="w-full h-48 object-cover rounded-t-xl">
+                        <div class="p-4">
+                          <h3 class="font-bold text-xl text-shenyang-red mb-2">Bulao Lin Candy</h3>
+                            <p class="text-gray-600">Specialty candy of Shenyang, sweet but not greasy, rich taste</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 工业文化（视差滚动） -->
+    <section id="culture" class="py-20 parallax" style="background-image: url('https://picsum.photos/id/1071/1920/1080');">
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="bg-black/60 rounded-2xl p-8 md:p-12 text-white animate-on-scroll">
+                <h2 class="text-[clamp(1.8rem,4vw,3rem)] font-bold mb-6">
+                    City of Industry <span class="text-gradient bg-gradient-to-r from-shenyang-gold to-shenyang-blue">Shenyang</span>
+                </h2>
+                <p class="text-lg mb-6">
+                    Shenyang is an important old industrial base in China, known as the "eldest son of the Republic" and the "Eastern Ruhr". After the founding of New China, Shenyang contributed many "firsts" to the country: the first lathe, the first jet aircraft, the first large transformer...
+                </p>
+                <p class="text-lg">
+                    Today's Shenyang, while preserving its industrial memory, continues to promote industrial upgrading, transforming from a traditional industrial city to a modern and intelligent industrial new city, and continuing to write industrial legends.
+                </p>
+                <div class="mt-8 flex flex-wrap gap-4">
+                    <div class="border border-shenyang-gold/50 p-3 rounded-lg">
+                        <i class="fas fa-industry text-shenyang-gold text-2xl mb-2"></i>
+                        <p>Old Industrial Base</p>
+                    </div>
+                    <div class="border border-shenyang-gold/50 p-3 rounded-lg">
+                        <i class="fas fa-plane text-shenyang-gold text-2xl mb-2"></i>
+                        <p>Aerospace</p>
+                    </div>
+                    <div class="border border-shenyang-gold/50 p-3 rounded-lg">
+                        <i class="fas fa-car text-shenyang-gold text-2xl mb-2"></i>
+                        <p>Automobile Manufacturing</p>
+                    </div>
+                    <div class="border border-shenyang-gold/50 p-3 rounded-lg">
+                        <i class="fas fa-microchip text-shenyang-gold text-2xl mb-2"></i>
+                        <p>Intelligent Manufacturing</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 遮罩层 -->
+        <div class="absolute inset-0 bg-shenyang-gray/40"></div>
+    </section>
+
+    <!-- 新增按钮区域（强化版） -->
+    <section class="py-20 bg-white"> <!-- 增加上下内边距，让按钮区域更舒展 -->
+        <div class="container mx-auto px-4 text-center">
+            <a href="3.html">
+            <button class="bg-gradient-to-r from-shenyang-red to-shenyang-gold 
+                          text-white font-bold px-16 py-6 rounded-full 
+                          shadow-xl hover:shadow-2xl transition-all duration-300 
+                          hover:scale-110 active:scale-105 text-xl 
+                          min-w-[350px] btn-glow animate-pulse-slow">
+                <!-- 图标+文字，更丰富 -->
+                
+                There are more stories about Shenyang, click here
+            </button>
+        </a>        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-shenyang-gray text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold text-shenyang-gold mb-4">Impression Shenyang</h3>
+                    <p class="text-gray-300">
+                        The birthplace of one dynasty, the capital of two emperors<br>
+                        Industrial city, intelligent future
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-shenyang-gold mb-4">Quick Navigation</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#intro" class="text-gray-300 hover:text-shenyang-red transition-colors">City Profile</a></li>
+                        <li><a href="#landmark" class="text-gray-300 hover:text-shenyang-red transition-colors">Landmarks</a></li>
+                        <li><a href="#food" class="text-gray-300 hover:text-shenyang-red transition-colors">Shengjing Cuisine</a></li>
+                        <li><a href="#culture" class="text-gray-300 hover:text-shenyang-red transition-colors">Industrial Culture</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-shenyang-gold mb-4">Contact Us</h3>
+                    <div class="flex space-x-4 text-2xl mb-4">
+                        <a href="#" class="text-gray-300 hover:text-shenyang-gold transition-colors"><i class="fab fa-weixin"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-shenyang-gold transition-colors"><i class="fab fa-weibo"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-shenyang-gold transition-colors"><i class="fab fa-douyin"></i></a>
+                    </div>
+                    <p class="text-gray-300">© 2026 Impression Shenyang All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript 交互逻辑 -->
+    <script>
+        // 初始化粒子背景
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: ['#C8102E', '#D4AF37', '#1E88E5'] },
+                shape: { type: 'circle' },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: { enable: true, distance: 150, color: '#4A4A4A', opacity: 0.2, width: 1 },
+                move: { enable: true, speed: 1, direction: 'none', random: true, straight: false, out_mode: 'out', bounce: false }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: { enable: true, mode: 'grab' },
+                    onclick: { enable: true, mode: 'push' },
+                    resize: true
+                },
+                modes: {
+                    grab: { distance: 140, line_linked: { opacity: 0.8 } },
+                    push: { particles_nb: 4 }
+                }
+            },
+            retina_detect: true
+        });
+
+        // 导航栏滚动效果
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-shenyang-gray/90', 'shadow-lg');
+                navbar.classList.remove('bg-transparent');
+            } else {
+                navbar.classList.remove('bg-shenyang-gray/90', 'shadow-lg');
+                navbar.classList.add('bg-transparent');
+            }
+
+            // 滚动触发动画
+            const animateElements = document.querySelectorAll('.animate-on-scroll');
+            animateElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                if (elementTop < windowHeight * 0.85) {
+                    element.classList.add('visible');
+                }
+            });
+        });
+
+        // 页面加载时触发一次滚动检测
+        window.addEventListener('load', function() {
+            window.dispatchEvent(new Event('scroll'));
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
